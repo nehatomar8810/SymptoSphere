@@ -45,3 +45,17 @@ class PrecautionsOut(BaseModel):
     precaution_2: str
     precaution_3: str
     precaution_4: str   
+
+class RatingCreate(BaseModel):
+    doctor_email: EmailStr
+    rating: int 
+
+class HealthcareProviderOut(BaseModel):
+    email: str
+    name: str
+    specialty: str
+    availability: str
+    location: str
+
+    class Config:
+        orm_mode = True     
