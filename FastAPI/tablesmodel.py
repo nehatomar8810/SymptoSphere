@@ -43,10 +43,9 @@ class Appointment(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
     doctor_email = Column(String, ForeignKey('healthcare_providers.email', ondelete="CASCADE"), nullable=False)
-    symptom_ids = Column(String)  #list of symptom IDs(comma-separated)
     predicted_diseases = Column(String, nullable=True) #store AI predicted diseases 
-    date_time = Column(DateTime, nullable=False)
-    status = Column(String, nullable=False)  #'scheduled' or 'confirmed' or 'canceled'
+    date_time = Column(String, nullable=False)
+    status = Column(String, nullable=False) 
 
     user = relationship("User", back_populates="appointments")
     doctor = relationship("HealthcareProvider", back_populates="appointments")

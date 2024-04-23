@@ -58,4 +58,20 @@ class HealthcareProviderOut(BaseModel):
     location: str
 
     class Config:
-        orm_mode = True     
+        from_attributes = True 
+
+class PatientOut(BaseModel):
+    email: str
+    name: str
+    gender: str
+    age : int
+    phone_num: str
+
+    class Config:
+        from_attributes = True 
+
+class AppointmentOut(BaseModel):
+    doctor_email: str
+    predicted_diseases: str  
+    date_time: str
+    status: str
