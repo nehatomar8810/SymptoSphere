@@ -111,6 +111,7 @@ async def predict_diseases(input_data: schemas.SymptomsInput, current_user: int 
     
     db.add(db_value)
     db.commit()
+    db.refresh(db_value)
 
     precautions = db.query(tablesmodel.Precaution).filter(tablesmodel.Precaution.diseases == predicted_disease).first()
     if not precautions:

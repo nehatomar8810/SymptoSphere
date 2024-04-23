@@ -30,7 +30,7 @@ Follow these steps to set up and run the project in your local environment:
 ## 1. Clone the Repository
 First, clone the repository to your local machine:
     ```bash
-    git clone https://github.com/your_github-repository/repository.git
+    git clone https://github.com/nehatomar8810/SymptoSphere.git
 
 ### 2. Create and Activate a Virtual Environment
 Open Command prompt inside your VS Code editor:
