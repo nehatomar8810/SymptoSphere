@@ -1,0 +1,137 @@
+/* Update styles to match SymptoSphere theme */
+.wrapper {
+    text-align: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaf4fd; /* Light blue background */
+}
+.header h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.header p {
+    font-size: 18px;
+    color: #666;
+}
+
+.dropdown {
+    margin-bottom: 20px;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+}
+
+#symptomInput {
+    padding: 10px;
+    width: 60%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.close-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 20px;
+}
+
+.addbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.symptoms-list {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.symptoms-list h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.symptom-item {
+    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.symptom-item:last-child {
+    border-bottom: none;
+}
+
+.symptom-item span {
+    margin-left: auto;
+}
+
+.dustbin-icon {
+    color: #aaa;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.dustbin-icon:hover {
+    color: #f00;
+}
+
+#symptomInput {
+    padding: 10px;
+    width: 80%; /* Increased width for longer input box */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+.profile-symbol {
+    margin-right: 10px; /* Adjust margin as needed */
+}
+
+.profile-symbol img {
+    width: 80px; /* Adjust width as needed */
+    height: 80px; /* Adjust height as needed */
+    border-radius: 50%; /* For a circular profile symbol */
+    /* Add additional styling as needed */
+}
+
+
+
+.continue-button button {
+    background-color: #4CAF50; /* Green background color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.request-results {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

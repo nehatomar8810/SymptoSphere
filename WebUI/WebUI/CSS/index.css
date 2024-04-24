@@ -1,0 +1,96 @@
+/* Add CSS to align form elements from left to right */
+.wrapper {
+    text-align: left; /* Align content from left to right */
+    max-width: 600px; /* Limit width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f2f2f2;
+}
+
+.login-part {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-part p {
+    font-size: 24px;
+    color: #333;
+}
+
+.main-part {
+    margin-top: 20px;
+}
+
+.inputs {
+    margin-bottom: 20px;
+}
+
+.inputs p {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #666;
+}
+
+.in {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: #45a049;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.stars {
+    display: inline-block;
+    unicode-bidi: bidi-override;
+    color: #ffd700;
+    font-size: 20px;
+    position: relative;
+    left: 5px;
+}
+.stars span.star {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+    transform: rotateY(180deg);
+}
+.stars span.star:before {
+    content: "\f005";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    font-size: inherit;
+}
+.stars input {
+    display: none;
+}
+.stars input:checked ~ span.star:before {
+    content: "\f005";
+    color: #ffd700;
+}
+.stars input:checked ~ span.star ~ span.star:before {
+    content: "\f005";
+    color: #ffd700;
+}

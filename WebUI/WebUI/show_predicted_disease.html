@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SymptoSphere - Disease Prediction</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <style>
+        .special-box {
+            background-color: #f0f0f0; /* Light grey background */
+            color: #008cba; /* Blue text color */
+            padding: 10px;
+            border: 2px solid #008cba; /* Blue border */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+        .continue-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .continue-button button {
+            background-color: #4CAF50; /* Green background color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .precautions {
+            margin-top: 20px;
+        }
+        .precautions h2 {
+            margin-bottom: 10px;
+        }
+        .precautions ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="title">
+                <h1>SymptoSphere</h1>
+                <p>Possible Diseases Based on Symptoms</p>
+            </div>
+        </div>
+        <div class="disease-conditions">
+            <h2>Predicted Disease:</h2>
+            <p id="predictedDisease"></p>
+        </div>
+        <div class="precautions" id="precautionsList">
+            <h2>Precautions:</h2>
+            <ul id="precautions"></ul> <!-- Changed the id to match the script -->
+        </div>
+        <div class="continue-button">
+            <button onclick="redirectToDoctorsPage()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve predicted disease from local storage
+        const predictedDisease = localStorage.getItem('predictedDisease');
+        if (predictedDisease) {
+            document.getElementById('predictedDisease').textContent = predictedDisease;
+        }
+
+        // Retrieve precautions from local storage
+        const precautions = JSON.parse(localStorage.getItem('precautions'));
+        if (precautions) {
+            const precautionsList = document.getElementById('precautions'); // Changed selector to match the ul id
+            for (const key in precautions) { // Iterate over the object keys
+                if (precautions.hasOwnProperty(key)) { // Check if the property is from the object itself, not from prototype chain
+                    const li = document.createElement('li');
+                    li.textContent = precautions[key]; // Access the value using the key
+                    precautionsList.appendChild(li);
+                }
+            }
+        }
+
+        // Function to redirect to the doctors.html page
+        function redirectToDoctorsPage() {
+            window.location.href = 'show_doctors.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile</title>
+    <link rel="stylesheet" href="./CSS/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light grey background */
+            color: #333; /* Dark text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #008cba; /* SymptoSphere blue background */
+            color: #fff; /* White text color */
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #008cba; /* SymptoSphere blue for headings */
+        }
+
+        .detail {
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            color: #666; /* Dark grey for detail headings */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Doctor Profile</h1>
+    </header>
+    <main>
+        <section id="doctorProfile">
+            <h2>Profile Information</h2>
+            <div class="detail">
+                <h3>Email:</h3>
+                <p id="email"></p>
+            </div>
+            <div class="detail">
+                <h3>Name:</h3>
+                <p id="name"></p>
+            </div>
+            <div class="detail">
+                <h3>Specialty:</h3>
+                <p id="specialty"></p>
+            </div>
+            <div class="detail">
+                <h3>Availability:</h3>
+                <p id="availability"></p>
+            </div>
+            <div class="detail">
+                <h3>Location:</h3>
+                <p id="location"></p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login page if token is not present
+            window.location.href = "./customer_login.html";
+        }
+
+        fetch('http://127.0.0.1:8000/doctor-details', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch doctor details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('email').innerText = data.email;
+            document.getElementById('name').innerText = data.name;
+            document.getElementById('specialty').innerText = data.specialty;
+            document.getElementById('availability').innerText = data.availability;
+            document.getElementById('location').innerText = data.location;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>

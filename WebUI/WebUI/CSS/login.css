@@ -1,0 +1,93 @@
+*{
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+  }
+a{
+    text-decoration: none;
+    color:black;
+}
+html, body{
+    display:grid;
+    height:100%;
+    place-items: center;
+    background:#ffffff;
+    /* background-image: url('./pexels-pixabay-325876.jpg'); */
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-size:100% 100%;
+    
+}
+.wrapper {
+    width: 380px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+.wrapper .login-part{
+    line-height: 80px;
+    background-color: #4b8fb4;
+    display:flex;
+    justify-content: center;
+    font-size:25px;
+    font-weight:600;
+    color:#fff;
+    border-radius: 5px;
+}
+.wrapper form{
+    padding:25px 20px;
+}
+.wrapper form .row{
+    line-height:40px;
+    margin-bottom:15px;
+    position:relative;
+}
+.wrapper form .row input{
+    height:40px;
+    width:100%;
+    padding-left:60px;
+    border-radius: 5px;
+    border:1px solid #dbd7d7;
+    font-size: 16px;
+}
+.wrapper form .row i{
+    position:absolute;
+    width:50px;
+    height:42px;
+    background-color:#4b8fb4;
+    border:1px solid #4b8fb4;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    border-radius:5px 0 0 5px;
+}
+.wrapper form .main-part .submit{
+    display:flex;
+    padding-left:145px;
+    background-color:#4b8fb4;
+    color:#fff;
+    font-size: 20px;
+}
+span, .fr{
+    color:#16a085;
+}
+/* p{
+    text-align: center;
+} */
+.wrapper form .main-part .submit:hover{
+    cursor:pointer;
+    background-color: #afe1ce;
+    color:#4b8fb4;
+    transition:1s;
+}
+.fr:hover{
+text-decoration: #4b8fb4 underline;
+transition:text-decoration 1s;
+}
+.star{
+    margin-top:30px;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SymptoSphere</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: serif;
+      position: relative; /* Required for absolute positioning of overlay */
+    }
+    /* Background overlay */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('./images/sym.jpg'); /* Set background image */
+      background-size: cover; /* Cover the entire viewport */
+      background-position: center; /* Center the background image */
+      filter: blur(8px); /* Apply blur effect to the background */
+      -webkit-backdrop-filter: blur(8px); /* Apply blur effect for Safari */
+      backdrop-filter: blur(8px); /* Apply blur effect for other browsers */
+      z-index: -1; /* Move the overlay behind other content */
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 50px;
+    }
+    .logo {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .options button {
+      margin: 10px;
+      padding: 20px 40px;
+      width: 300px;
+      background-color: #004466; /* Change background color to dark blue */
+      color: #fff; /* Change text color to white */
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 24px;
+    }
+    .options button:hover {
+      background-color: #003d52; /* Darken background color on hover */
+    }
+    h1 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 100px;
+      margin: 0;
+      position: relative; /* Ensure the text appears above the overlay */
+      z-index: 1; /* Ensure the text appears above the overlay */
+      color: #0077cc; /* Change color to a healthcare-related blue */
+    }
+    .or {
+      margin: 20px 0;
+      font-size: 24px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div> <!-- Background overlay -->
+  <h1>SymptoSphere</h1>
+  <div class="options">
+    <button onclick="window.location.href='patient_login.html'">Patient</button>
+    <span class="or">OR</span>
+    <button onclick="window.location.href='doctor_login.html'">Doctor</button>
+  </div>
+</body>
+</html>

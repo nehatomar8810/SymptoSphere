@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SymptoSphere - Symptoms Tracker</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <style>
+        .profile-details {
+            display: none; /* Hide profile details by default */
+        }
+        
+        .continue-button button {
+            background-color: #4CAF50; /* Green background color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .predicted-section {
+            display: none; /* Hide predicted section by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="profile-symbol">
+                <!-- Add your profile symbol here, such as an image or an icon -->
+                <img src="./images/profile.webp" alt="Profile Symbol" onclick="toggleProfileDetails()">
+            </div>
+            <div class="title">
+                <h1>SymptoSphere</h1>
+                <p>A platform to track and manage your symptoms</p>
+            </div>
+        </div>
+        <div id="profileDetails" class="profile-details">
+            <!-- Patient details -->
+            <p>Name: <span id="name"></span></p>
+            <p>Age: <span id="age"></span></p>
+            <p>Gender: <span id="gender"></span></p>
+            <p>Phone Number: <span id="phone"></span></p>
+            <p>Email: <span id="email"></span></p>
+        </div>
+        <div class="dropdown">
+            <h2>What are your symptoms?</h2>
+            <div class="input-container">
+                <input type="text" id="symptomInput" placeholder="Type a symptom...">
+                <span class="close-icon" onclick="clearInput()">×</span>
+            </div>
+            <button onclick="addSymptomFromInput()" class="addbtn">Add Symptom</button>
+        </div>
+        <div id="selectedSymptoms" class="symptoms-list">
+            <h2>My Symptoms:</h2>
+            <ul id="symptomsList"></ul>
+        </div>
+
+        <div class="continue-button">
+            <button onclick="predict()">Predict</button>
+        </div>
+    </div>
+    
+    <script src="./JS/script.js"></script>
+    <script>
+        window.onload = function() {
+            fetchUserProfile();
+        }
+
+        function fetchUserProfile() {
+            fetch('http://127.0.0.1:8000/patient-details', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('name').innerText = data.name;
+                document.getElementById('age').innerText = data.age;
+                document.getElementById('gender').innerText = data.gender;
+                document.getElementById('phone').innerText = data.phone_num;
+                document.getElementById('email').innerText = data.email;
+                document.getElementById('profileDetails').style.display = 'block'; 
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function addSymptomFromInput() {
+            const symptomInput = document.getElementById('symptomInput').value.trim();
+            if (symptomInput !== '') {
+                const symptomsList = document.getElementById('symptomsList');
+                const li = document.createElement('li');
+                li.textContent = symptomInput;
+                symptomsList.appendChild(li);
+                document.getElementById('symptomInput').value = '';
+            }
+        }
+
+        // Function to predict diseases based on symptoms
+        function predict() {
+            const symptomsListItems = document.querySelectorAll('#symptomsList li');
+            const symptoms = Array.from(symptomsListItems).map(li => li.textContent);
+            if (symptoms.length >= 4) { // Check if at least 3 symptoms are added
+                fetch('http://127.0.0.1:8000/get-diseases-prediction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({ symptoms: symptoms })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem('predictedDisease', data.disease);
+                    localStorage.setItem('precautions', JSON.stringify(data.precautions));
+                    window.location.href = './show_predicted_disease.html';
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert('Please add at least 4 symptoms.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Login Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/index.css">
+    <script src="https://kit.fontawesome.com/be595047ec.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="login-part">
+            <p>SignUp Form</p>
+        </div>
+        <!-- Call the JavaScript function on form submission -->
+        <form id="signupForm">
+            <div class="main-part">
+                <div class="row inputs">
+                    <p>Enter Email</p>
+                    <input id="emailInput" class="in" type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Password</p>
+                    <input id="passwordInput" class="in" type="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Name</p>
+                    <input id="nameInput" class="in" type="text" name="name" placeholder="Enter Name" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Speciality</p>
+                    <input id="specialtyInput" class="in" type="text" name="specialty" placeholder="Speciality" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Availability</p>
+                    <input id="availabilityInput" class="in" type="text" name="availability" placeholder="Availability" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Location</p>
+                    <input id="locationInput" class="in" type="text" name="location" placeholder="Location" required>
+                </div>
+                <div class="row inputs">
+                    <p>Enter Phone Number</p>
+                    <input id="phoneInput" class="in" type="tel" name="phone_num" placeholder="Phone Number" required>
+                </div>
+                <div class="row inputs">
+                    <input class="row submit star" type="submit" value="SignUp">
+                </div>
+            </div>
+        </form>
+        <p><a href="./doctor_login.html">Already have an Account? <span>Login Now</span></a></p>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = {
+                email: document.getElementById('emailInput').value,
+                password: document.getElementById('passwordInput').value,
+                name: document.getElementById('nameInput').value,
+                specialty: document.getElementById('specialtyInput').value,
+                availability: document.getElementById('availabilityInput').value,
+                location: document.getElementById('locationInput').value,
+                phone_num: document.getElementById('phoneInput').value
+            };
+
+            fetch('http://127.0.0.1:8000/signup-healthprovider', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "./doctor_login.html"; // Redirect to login page
+                } else {
+                    alert('Failed to sign up. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to sign up. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

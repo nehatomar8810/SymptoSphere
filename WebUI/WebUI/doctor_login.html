@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login - Laundrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="./JS/constants.js" type="module"></script>
+    <style>
+        /* Additional CSS styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* background-color: #f3f4f6; */
+            background-image: url('./images/sym.jpg');
+            background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #5f6469;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 50px;
+            animation: slideInDown 0.5s ease;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        #loginForm {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 10px;
+            margin-top: 50px;
+            width: 300px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button[type="submit"] {
+            display: block;
+            width: calc(100% - 24px);
+            margin: 10px auto;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        button[type="submit"]:focus {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50; /* Fallback color */
+            background-image: linear-gradient(45deg, #4CAF50, #2196F3);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-image: linear-gradient(45deg, #43A047, #1E88E5);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            animation: pulse 1s infinite;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        footer {
+            background-color: #5f6469;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Login to Continue</h1>
+    </header>
+    <main>
+        <section id="loginForm">
+            <h2>Login</h2>
+            <form id="loginForm" onsubmit="return submitLoginForm()">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p><a href="./doctor_signup.html">Not a Member? <span>SignUp Now</span></a></p>
+        </section>
+    </main>
+
+    <script>
+        function submitLoginForm() {
+            const email = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+    
+            const formData = {
+                email: email,
+                password: password
+            };
+    
+            fetch('http://127.0.0.1:8000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Invalid credentials');
+                }
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem('token', data.access_token);
+                window.location.href = "./doctor_profile.html"; // change it doctors profile page.
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    
+            return false; // Prevent default form submission
+        }
+    </script>
+    
+</body>
+</html>
