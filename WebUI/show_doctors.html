@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SymptoSphere - Available Doctors</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #008cba;
+            margin: 0;
+        }
+        .doctor-block {
+            width: calc(20% - 40px); /* Adjusted width for 5 doctors in a row with margin */
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            display: inline-block;
+            vertical-align: top;
+            text-align: left;
+            box-sizing: border-box;
+            position: relative;
+            height: 300px; /* Set a fixed height */
+        }
+        .doctor-block:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .doctor-name {
+            font-weight: bold;
+            color: #008cba;
+            margin-bottom: 10px;
+        }
+        .doctor-info {
+            margin-bottom: 10px;
+        }
+        .doctor-info strong {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .select-button, .rating-button {
+            background-color: #4CAF50; /* Green background color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* Add margin to separate from rating */
+            display: block; /* Make button a block element */
+            width: 100%; /* Full width */
+            text-align: center; /* Center align button text */
+        }
+        .request-results {
+            text-align: center; /* Center align request result messages */
+            margin-top: 20px;
+        }
+        .request-results .result-message {
+            color: #4CAF50; /* Green color for accept or decline messages */
+            margin-bottom: 10px;
+        }
+        .status-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .rating-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .rating-container.visible {
+            display: block;
+        }
+        .star {
+            color: #ffc107; /* Yellow color for stars */
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .star:hover,
+        .star.checked {
+            color: #ff9800; /* Orange color for hovered or checked stars */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>Available Doctors</h1>
+        </div>
+        <div id="doctorsList" class="doctors-list">
+            <!-- Doctor blocks will be dynamically added here -->
+        </div>
+    </div>
+    <div id="requestResults" class="request-results">
+        <!-- Results will be dynamically added here -->
+    </div>
+    <div id="statusBox" class="status-box">
+        <!-- Scheduled or accepted status will be displayed here -->
+    </div>
+
+    <div id="ratingContainer" class="rating-container">
+        <span class="star" data-value="1">&#9733;</span>
+        <span class="star" data-value="2">&#9733;</span>
+        <span class="star" data-value="3">&#9733;</span>
+        <span class="star" data-value="4">&#9733;</span>
+        <span class="star" data-value="5">&#9733;</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchDoctorsData();
+
+            function fetchDoctorsData() {
+                fetch('http://127.0.0.1:8000/suggest-doctors', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    generateDoctorBlocks(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching doctors:', error);
+                });
+            }
+
+            function generateDoctorBlocks(doctors) {
+                const doctorsList = document.getElementById('doctorsList');
+                doctors.forEach(doctor => {
+                    const doctorBlock = document.createElement('div');
+                    doctorBlock.classList.add('doctor-block');
+                    doctorBlock.innerHTML = `
+                        <div class="doctor-name">${doctor.name}</div>
+                        <div class="doctor-info"><strong>Email:</strong> ${doctor.email}</div>
+                        <div class="doctor-info"><strong>Specialty:</strong> ${doctor.specialty}</div>
+                        <div class="doctor-info"><strong>Availability:</strong> ${doctor.availability}</div>
+                        <div class="doctor-info"><strong>Location:</strong> ${doctor.location}</div>
+                    `;
+                    const selectButton = document.createElement('div');
+                    selectButton.classList.add('select-button');
+                    selectButton.textContent = 'Select';
+                    selectButton.setAttribute('data-doctor-email', doctor.email);
+                    selectButton.addEventListener('click', handleSelect);
+                    doctorBlock.appendChild(selectButton);
+
+                    const ratingButton = document.createElement('div');
+                    ratingButton.classList.add('rating-button');
+                    ratingButton.textContent = 'Rating';
+                    ratingButton.setAttribute('data-doctor-email', doctor.email);
+                    ratingButton.addEventListener('click', handleRating);
+                    doctorBlock.appendChild(ratingButton);
+
+                    doctorsList.appendChild(doctorBlock);
+                });
+            }
+
+            function handleSelect(event) {
+                const doctorEmail = event.target.getAttribute('data-doctor-email');
+                fetch(`http://127.0.0.1:8000/make-appointment/${doctorEmail}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayStatus('Appointment scheduled successfully');
+                })
+                .catch(error => {
+                    console.error('Error making appointment:', error);
+                });
+            }
+
+            function handleRating(event) {
+                const doctorEmail = event.target.getAttribute('data-doctor-email');
+                const ratingContainer = document.getElementById('ratingContainer');
+                ratingContainer.setAttribute('data-doctor-email', doctorEmail);
+                ratingContainer.classList.add('visible');
+            }
+
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', () => handleStarClick(star.getAttribute('data-value')));
+            });
+
+            function handleStarClick(ratingValue) {
+                const doctorEmail = document.getElementById('ratingContainer').getAttribute('data-doctor-email');
+                fetch('http://127.0.0.1:8000/rate-doctor', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        doctor_email: doctorEmail,
+                        rating: ratingValue
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayStatus('Doctor rated successfully');
+                })
+                .catch(error => {
+                    console.error('Error rating doctor:', error);
+                })
+                .finally(() => {
+                    hideRatingContainer();
+                });
+            }
+
+            function hideRatingContainer() {
+                const ratingContainer = document.getElementById('ratingContainer');
+                ratingContainer.classList.remove('visible');
+            }
+
+            function displayStatus(status) {
+                const statusBox = document.getElementById('statusBox');
+                statusBox.textContent = status;
+            }
+        });
+    </script>
+</body>
+</html>
